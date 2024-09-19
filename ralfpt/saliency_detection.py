@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from functools import lru_cache
 from typing import List, Optional, Union
 
 import torch
@@ -69,6 +70,11 @@ class SaliencyTester(object):
         return self.processor.postprocess(prediction, width=width, height=height)  # type: ignore
 
 
+@lru_cache
+def get_cached_saliency_tester(model_name: str) -> SaliencyTester:
+    return SaliencyTester(model_name=model_name)
+
+
 def apply_saliency_detection(
     image: PilImage,
     saliency_testers: List[Union[str, SaliencyTester]],
@@ -78,7 +84,7 @@ def apply_saliency_detection(
     saliency_maps = []
     for saliency_tester in saliency_testers:
         if isinstance(saliency_tester, str):
-            saliency_tester = SaliencyTester(model_name=saliency_tester)
+            saliency_tester = get_cached_saliency_tester(model_name=saliency_tester)
 
         saliency_map = saliency_tester(image)
         saliency_map = saliency_map.convert("L")
