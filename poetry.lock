@@ -1606,6 +1606,17 @@ tests = ["autopep8", "flake8", "isort", "llnl-hatchet", "numpy", "pytest", "scip
 tutorials = ["matplotlib", "pandas", "tabulate"]
 
 [[package]]
+name = "types-pillow"
+version = "10.2.0.20240822"
+description = "Typing stubs for Pillow"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "types-Pillow-10.2.0.20240822.tar.gz", hash = "sha256:559fb52a2ef991c326e4a0d20accb3bb63a7ba8d40eb493e0ecb0310ba52f0d3"},
+    {file = "types_Pillow-10.2.0.20240822-py3-none-any.whl", hash = "sha256:d9dab025aba07aeb12fd50a6799d4eac52a9603488eca09d7662543983f16c5d"},
+]
+
+[[package]]
 name = "typing-extensions"
 version = "4.12.2"
 description = "Backported and Experimental Type Hints for Python 3.8+"
@@ -1639,4 +1650,4 @@ lama = ["simple-lama-inpainting"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "6b69aec05082c832050a8c75bd0fa544e4755d9484c0c473ce850485e6ce7ff9"
+content-hash = "f544eacf3408fa13c0e3b1c0101640e5e09857100f1807b284442bbc00b02df8"
