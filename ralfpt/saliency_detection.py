@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from typing import Optional, Union
+from functools import lru_cache
+from typing import List, Optional, Union
 
 import torch
 from transformers import AutoImageProcessor, AutoModel
@@ -67,3 +68,26 @@ class SaliencyTester(object):
         prediction = outptus[0][0]
 
         return self.processor.postprocess(prediction, width=width, height=height)  # type: ignore
+
+
+@lru_cache
+def get_cached_saliency_tester(model_name: str) -> SaliencyTester:
+    return SaliencyTester(model_name=model_name)
+
+
+def apply_saliency_detection(
+    image: PilImage,
+    saliency_testers: List[Union[str, SaliencyTester]],
+) -> List[PilImage]:
+    image = image.convert("RGB") if image.mode != "RGB" else image
+
+    saliency_maps = []
+    for saliency_tester in saliency_testers:
+        if isinstance(saliency_tester, str):
+            saliency_tester = get_cached_saliency_tester(model_name=saliency_tester)
+
+        saliency_map = saliency_tester(image)
+        saliency_map = saliency_map.convert("L")
+        saliency_maps.append(saliency_map)
+
+    return saliency_maps
