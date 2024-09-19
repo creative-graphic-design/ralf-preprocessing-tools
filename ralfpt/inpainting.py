@@ -51,6 +51,7 @@ def get_mask(image_width: int, image_height: int, elements: List[Element]) -> Pi
 def apply_inpainting(
     image: PilImage, elements: List[Element], inpainter: Optional[Any] = None
 ) -> PilImage:
+    image = image.convert("RGB") if image.mode != "RGB" else image
     image_width, image_height = image.size
 
     mask = get_mask(
