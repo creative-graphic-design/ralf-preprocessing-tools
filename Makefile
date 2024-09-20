@@ -1,39 +1,20 @@
-#
-# Installation
-#
-
 .PHONY: setup
 setup:
-	pip install -U --no-cache-dir pip setuptools wheel poetry
-
-.PHONY: install
-install:
+	pip install -U pip setuptools wheel poetry
 	poetry install
 
-.PHONY: install-datasets
-install-datasets:
-	poetry install --extras datasets
-
-.PHONY: install-cocoapi
-install-cocoapi:
-	poetry install --extras cocoapi
-
-.PHONY: install-all
-install-all:
-	poetry install --extras all
-
-#
-# linter/formatter/typecheck
-#
-
-.PHONY: lint
-lint: install
-	poetry run ruff check --output-format=github .
-
 .PHONY: format
-format: install
+format:
 	poetry run ruff format --check --diff .
 
+.PHONY: lint
+lint:
+	poetry run ruff check --output-format=github .
+
 .PHONY: typecheck
-typecheck: install
-	poetry run mypy --cache-dir=/dev/null .
+typecheck:
+	poetry run mypy .
+
+.PHONY: test
+test:
+	poetry run pytest
